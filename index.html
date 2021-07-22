@@ -1,1 +1,519 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body {
+   margin: 50px;
+  }
+.toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        //background: none repeat scroll 0 0 white;
+        background: lightblue;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        font-color: "red";
+        font-weight: bold;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+
+     .button {
+          font-weight: lighter;
+          cursor: pointer;
+     }
+
+     axis line {
+       stroke: black;
+       stroke-width: 3px
+     }
+
+     .axis text {
+          font-size: 13px;
+	  font-weight: bold;
+     }
+
+     .axis path {
+          stroke: black;
+          stroke-width: 3px
+     }
+
+</style>
+<p style="font-size:250%;"><strong>Cars Fuel Efficiency</strong></p>
+</head>
+<body>
+     <!--  -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<p style="font-size:160%;">
+Buying a car is not easy. There are so many cars in the market and it becomes very difficult to decide which car to buy.
+One of the criteria that can help make the decision is car fuel efficiency. This is an important criteria for most of 
+the people as it directly constributes towards recurring cost of owning the car. Here we analyze 
+car fuel efficiency of some of the leading car brands to get an idea of the range of fuel efficency and also get
+know which car brands give highest fuel efficency and which car brands give lowest fuel efficiency.
+We have picked following car brands for our analysis: <strong>
+Acura, Audi, BMW, Chevrolet, Dodge, Fiat, Ford, Honda, Lexus, and Toyota</strong>. We are going to look at the
+ <strong>City</strong> mileage and <strong>Highway</strong> mileage of these cars.
+ We will also look at these mileages on with <strong>4</strong> cylinders and <strong>6</strong> cylinders. For the analysis,
+we have collected data from the source <a href="https://flunky.github.io/cars2017.csv">Cars 2017</a>.
+</p>
+<p>
+<br><br><br>
+</p>
+<h2>4-Cylinder Cars Mileage Comparison</h2>
+<p style="font-size:160%;">
+ 4-cylinder cars are smaller, give reasonable performance and provide good fuel efficiency. These cars are very common 
+as they are low cost and it is important to look at fuel efficiency of these cars.
+Below we look at City and Highway mileage of 4-cylinder cars for the leading car brands.
+ The below chart compares the City Mileage of different car brands. 
+ We can look at the Highway Mileage by clicking the <strong>Highway MPG</strong> button to see what that looks like for these car brands. 
+We see that the mileage of car for all the brands improves on Highway in comparison to City.
+Moreover, we also notice that that <strong>Honda</strong> gives the best mileage on City as well as on Highway.
+Also, we notice that <strong>Audi</strong> and <strong>BMW</strong> give same mileage on City but <strong>BMW</strong>
+gives more mileage on Highway. Similarly <strong>Lexus</strong> gives better City mileage than <strong>Toyota</strong>,
+but both give same mileage on Highway.
+</p>
+<div>
+<button id = "button1" class = "button">City MPG</button>
+<button id = "button2" class = "button">Highway MPG</button>
+</div>
+<div id='barChart1'>
+</div>
+<script>
+// Set width
+var w = 500;
+
+// Set height
+var h = 400;
+
+// Padding between bars
+var barPadding = 10;
+
+// Color coding scheme
+var colormap = ["#FFF000", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", "#FFAABF", "#FEE08B",
+ 		"#FDAE61", "#F46D43", "lightblue", "#0F3E4F" ];
+
+//
+// Show result for only leading car brands
+//
+var leadingBrands = 
+   ["Acura", "Audi", "BMW", "Chevrolet", "Fiat", "Ford", "Honda", "Lexus", "Toyota", "Dodge"];
+
+// Tooltip
+var div = d3.select("body").append("div").attr("class", "toolTip");
+
+// Read data from CSV
+d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
+
+	var data = origdata.filter(function(element) {
+		return element.EngineCylinders == "4" &
+		       element.Fuel == "Gasoline" &
+                       leadingBrands.indexOf(element.Make) != -1;
+    	});
+
+	// console.log(data);
+	var len = data.length;
+
+	var y = d3.scale.linear()
+        	.domain([0, d3.max(data, function(element) { return parseInt(element["AverageHighwayMPG"]); })])
+          	.range([0, h]);
+
+	//
+	// Create SVG canvas
+	//
+	var svg = d3.select("#barChart1")
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+	
+
+	//
+	// Add bars
+	//
+	var bars = svg.selectAll("rect")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+		    return i * (w / len);
+  		})
+		.attr("y", function(d, i) {
+		    return h - parseInt(d["AverageCityMPG"])*10;
+  		})
+  		.attr("width", w / len - barPadding) 
+		.attr("height", function(d) {
+		    return y(parseInt(d["AverageCityMPG"]));
+  		})
+		.attr("fill", function(d, i) {
+		    return colormap[leadingBrands.indexOf(d.Make)];
+  		});
+
+
+       //
+       // Add tooltip on mouse hover
+       //
+       bars.on("mousemove", function(d){
+          div.style("left", d3.event.pageX+10+"px");
+          div.style("top", d3.event.pageY-25+"px");
+          div.style("display", "inline-block");
+          div.html("<strong>" + (d.Make)+"<br>"+
+		   "Cylinders : " + d.EngineCylinders+"<br>"+
+		   "City MPG : " + (d.AverageCityMPG)+" MPG" +"<br>"+
+		   "Highway MPG : " +(d.AverageHighwayMPG)+" MPG"+
+                   "</strong>");
+        });
+
+	bars.on("mouseout", function(d){
+                div.style("display", "none");
+        });
+
+	//
+	// Add Label to the bars
+	//
+	svg.selectAll("text")
+  		.data(data)
+	  .enter()
+	  .append("text")
+	  .text(function(d) {
+	  	return d.Make;
+  	  })
+	  .attr("text-anchor", "middle")
+	  .attr("x", function(d, i) {
+		return i * (w / len) + (w / len - barPadding) / 2;
+  	  })
+  	  .attr("y", function(d) {
+    		return h - parseInt(d["AverageCityMPG"])*8 - 2;
+  	  })
+  	  .attr("font-family", "sans-serif")
+  	  .attr("font-size", "14px")
+  	  .attr("font-weight", "bold")
+  	  .attr("fill", "black");
+
+	var cityButton = d3.select("#button1");
+	var highwayButton = d3.select("#button2");
+
+	cityButton.attr("style", "font-weight:bold;")
+	cityButton.on("click", function() {
+		cityButton.attr("style", "font-weight:bold;")
+		highwayButton.attr("style", "font-weight:lighter;")
+		updateToCityMPG()
+	});
+	function updateToCityMPG() {
+		bars.transition()
+                    .duration(500)
+		    .attr("y", function(d, i) {
+		    	return h - parseInt(d["AverageCityMPG"])*10;
+  		    })
+		    .attr("height", function(d) {
+		    	return y(parseInt(d["AverageCityMPG"]));
+  		    })
+	}	
+
+	highwayButton.on("click", function() {
+		cityButton.attr("style", "font-weight:lighter;")
+		highwayButton.attr("style", "font-weight:bold;")
+		updateToHighwayMPG();
+	});
+	function updateToHighwayMPG() {
+		
+		bars.transition()
+                    .duration(500)
+		    .attr("y", function(d, i) {
+		    	return h - parseInt(d["AverageHighwayMPG"])*10;
+  		    })
+		    .attr("height", function(d) {
+		    	return y(parseInt(d["AverageHighwayMPG"]));
+  		    });
+	}
+  });
+</script>
+<p>
+<br><br><br>
+</p>
+<h2>6-Cylinder Cars Mileage Comparison</h2>
+<p style="font-size:160%;" padding: 0 7em 2em 0>
+ 6-cylinder engines are high performing engines found in automobiles that need to perform with high power.
+You typically get more power and performance from 6-cylinder cars than what you would get from 4-cylinder cars.
+However, 6-cylinder cars are less fuel efficient than 4-cylinder cars.
+Below we look at City and Highway mileage of 6-cylinder cars for the leading car brands.
+ The below chart compares the City Mileage of different car brands. 
+ We can look at the Highway Mileage by clicking the <strong>Highway MPG</strong> button to see what that looks like for these car brands. 
+We see that the mileage of car for all the brands improves on Highway in comparison to City.
+We notice that <strong>Acura</strong> and <strong>Lexus</strong> give good City mileage compared to others, whereas
+<strong>Acura</strong>, <strong>BMW</strong>, <strong>Honda</strong> and <strong>Lexus</strong> give good Highway mileage.
+We also notice that <strong>Ford</strong> gives poor fuel efficiency both in City and on Highway.
+</p>
+<div>
+<button id = "button3" class = "button">City MPG</button>
+<button id = "button4" class = "button">Highway MPG</button>
+</div>
+<div id='barChart2'>
+</div>
+<script>
+d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
+
+	var data = origdata.filter(function(element) {
+		return element.EngineCylinders == "6" &
+		       element.Fuel == "Gasoline" &
+                       leadingBrands.indexOf(element.Make) != -1;
+    	});
+
+	 console.log(data);
+	var len = data.length;
+
+	var y = d3.scale.linear()
+        	.domain([0, d3.max(data, function(element) { return parseInt(element["AverageHighwayMPG"]); })])
+          	.range([0, h]);
+
+	//
+	// Create SVG canvas
+	//
+	var svg = d3.select("#barChart2")
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+	//
+	// Add bars
+	//
+	var bars = svg.selectAll("rect")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+		    return i * (w / len);
+  		})
+		.attr("y", function(d, i) {
+		    return h - parseInt(d["AverageCityMPG"])*14;
+  		})
+  		.attr("width", w / len - barPadding) 
+		.attr("height", function(d) {
+		    return y(parseInt(d["AverageCityMPG"]));
+  		})
+		.attr("fill", function(d, i) {
+		    return colormap[leadingBrands.indexOf(d.Make)];
+  		});
+
+
+       //
+       // Add tooltip on mouse hover
+       //
+       bars.on("mousemove", function(d){
+          div.style("left", d3.event.pageX+10+"px");
+          div.style("top", d3.event.pageY-25+"px");
+          div.style("display", "inline-block");
+          div.html("<strong>" +(d.Make)+"<br>"+
+		   "Cylinders : " + d.EngineCylinders+"<br>"+
+		   "City MPG : " + (d.AverageCityMPG)+" MPG" +"<br>"+
+		   "Highway MPG : " +(d.AverageHighwayMPG)+" MPG" + "</strong>");
+        });
+
+	bars.on("mouseout", function(d){
+                div.style("display", "none");
+        });
+
+	//
+	// Add Label to the bars
+	//
+	svg.selectAll("text")
+  		.data(data)
+	  .enter()
+	  .append("text")
+	  .text(function(d) {
+	  	return d.Make;
+  	  })
+	  .attr("text-anchor", "middle")
+	  .attr("x", function(d, i) {
+		return i * (w / len) + (w / len - barPadding) / 2;
+  	  })
+  	  .attr("y", function(d) {
+    		return h - parseInt(d["AverageCityMPG"])*10 - 2;
+  	  })
+  	  .attr("font-family", "sans-serif")
+  	  .attr("font-size", "14px")
+  	  .attr("font-weight", "bold")
+  	  .attr("fill", "black");
+
+	var cityButton = d3.select("#button3");
+	var highwayButton = d3.select("#button4");
+
+	cityButton.attr("style", "font-weight:bold;")
+	cityButton.on("click", function() {
+		cityButton.attr("style", "font-weight:bold;")
+		highwayButton.attr("style", "font-weight:lighter;")
+		updateToCityMPG()
+	});
+	function updateToCityMPG() {
+		bars.transition()
+                    .duration(500)
+		    .attr("y", function(d, i) {
+		    	return h - parseInt(d["AverageCityMPG"])*14;
+  		    })
+		    .attr("height", function(d) {
+		    	return y(parseInt(d["AverageCityMPG"]));
+  		    })
+	}	
+
+	highwayButton.on("click", function() {
+		cityButton.attr("style", "font-weight:lighter;")
+		highwayButton.attr("style", "font-weight:bold;")
+		updateToHighwayMPG();
+	});
+	function updateToHighwayMPG() {
+		bars.transition()
+                    .duration(500)
+		    .attr("y", function(d, i) {
+		    	return h - parseInt(d["AverageHighwayMPG"])*14;
+  		    })
+		    .attr("height", function(d) {
+		    	return y(parseInt(d["AverageHighwayMPG"]));
+  		    });
+	}
+  });
+
+</script>
+<p>
+<br><br><br>
+</p>
+<h2>4-Cylinder Cars vs 6-Cylinder Cars</h2>
+<p style="font-size:160%;">
+ From the Car mileage data we see that 4-cylinder car are more fuel efficient than 6-cylinder cars.
+ If we look at <strong>Honda</strong>, we notice that its 4-cylinder car <strong>City</strong> mileage is 
+<strong>30 MPG</strong> and <strong>Highway</strong> mileage is <strong>38 MPG</strong>,
+ which is much better than its 6-cylinder car <strong>City</strong> mileage of <strong>19 MPG</strong>
+ and <strong>Highway</strong> mileage of <strong>28 MPG</strong>.
+<p>
+<p style="font-size:160%;">
+ The benefits of 4-cylinder engine include:
+</p>
+<ul style="font-size:160%;">
+  <li>4-cylinder engines tend to be fuel-efficient and are a great buy if you are looking for a small and reliable car.</li>
+  <li>4-cylinder engines have less of an impact on your carbon footprint than a 6-cylinder engine.</li>
+  <li>4-cylinder engines are commonly found in smaller, compact cars, which are easier to maneuver and park.</li>
+</ul>
+<p style="font-size:160%;">
+The benefits of 6-cylinder engine include:
+</p>
+<ul style="font-size:160%;">
+  <li>6-cylinder engines are higher performing engines and are usually found in sports cars and automobiles that need to perform with more power.</li>
+  <li>6-cylinder engines are best used in vehicles with large engines, which can help you two higher weight loads.</li>
+</ul>
+<br><br>
+</p>
+<h2>Gasoline Cars vs Electric Cars</h2>
+</div>
+<div id='Chart3'>
+</div>
+<script>
+var gasolineBrands = 
+   ["Acura", "Audi", "Fiat", "Honda", "Lexus", "Toyota", "Dodge"];
+
+var electricBrands =
+   ["BMW", "Chevrolet", "Ford"]
+
+d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
+
+	var data1 = origdata.filter(function(element) {
+		return element.EngineCylinders == "4" &
+		       element.Fuel == "Gasoline" &
+                       gasolineBrands.indexOf(element.Make) != -1;
+    	});
+
+	var data2 = origdata.filter(function(element) {
+		return element.Fuel == "Electricity" &
+                       electricBrands.indexOf(element.Make) != -1;
+    	});
+	
+	data = data1.concat(data2);
+	 console.log(data);
+	var len = data.length;
+
+	xs = d3.scale.log().domain([10,150]).range([0,w - 80])
+   	ys = d3.scale.log().domain([10,150]).range([h - 50,0])
+
+	//
+	// Create SVG canvas
+	//
+	var svg = d3.select("#Chart3")
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+	var circles = svg.append("g")
+	      .attr("transform", "translate(0,0)")
+	    .selectAll().data(data).enter().append("circle")
+	    .attr('cx', function(d,i) {return xs(d["AverageCityMPG"] );})
+	    .attr('cy', function(d,i) {return ys(d["AverageHighwayMPG"]);})
+	    .attr('r', function(d,i) {return 10;})
+	    .attr('style', function(d,i) {
+		if (electricBrands.indexOf(d.Make) == -1) {
+			//return "fill:lightpink;stroke:black"
+			return "fill:" + colormap[leadingBrands.indexOf(d.Make)] + ";stroke:black";
+        	}
+	        return "fill:lightgreen;stroke:black";
+    	    });
+
+       //
+       // Add tooltip on mouse hover
+       //
+       circles.on("mousemove", function(d){
+          div.style("left", d3.event.pageX+10+"px");
+          div.style("top", d3.event.pageY-25+"px");
+          div.style("display", "inline-block");
+          div.html("<strong>" +(d.Make)+"<br>"+
+		   "Cylinders : " + d.EngineCylinders+"<br>"+
+		   "City MPG : " + (d.AverageCityMPG)+" MPG" +"<br>"+
+		   "Highway MPG : " +(d.AverageHighwayMPG)+" MPG" +"</strong>"
+                   );
+        });
+
+	circles.on("mouseout", function(d){
+                div.style("display", "none");
+        });
+    
+
+    svg.append("g")
+       	.attr("transform", "translate(50,0)")
+	.attr("class", "axis")
+    	.call(d3.axisLeft(ys).tickValues([10,20,50,100]).tickFormat(d3.format("~s")))
+
+
+    	svg.append("g")
+       		.attr("transform", "translate(50,350)")
+	        .attr("class", "axis")
+    		.call(d3.axisBottom(xs).tickValues([10,20,50,100]).tickFormat(d3.format("~s")))
+
+
+	svg.append("text")
+   		 .attr("class", "x label")
+		 .attr("text-anchor", "end")
+		 .attr("x", 250)
+		 .attr("y", h - 6)
+		 .text("City MPG")
+		 .attr("font-weight", "bold");
+
+	svg.append("text")
+    		.attr("class", "y label")
+		.attr("text-anchor", "end")
+	        .attr("y", 6)
+	        .attr("dx", "-10.75em")
+	        .attr("dy", ".75em")
+	        .attr("transform", "rotate(-90)")
+ 	        .text("Highway MPG")
+		.attr("font-weight", "bold");
+
+});
+</script>
+<p>
+<br><br><br>
+</p>
+<h2>Conclusion</h2>
+</body>
+</html>
