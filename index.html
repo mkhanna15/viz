@@ -119,7 +119,7 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	// console.log(data);
 	var len = data.length;
 
-	var y = d3.scale.linear()
+	var y = d3.scaleLinear()
         	.domain([0, d3.max(data, function(element) { return parseInt(element["AverageHighwayMPG"]); })])
           	.range([0, h]);
 
@@ -267,7 +267,7 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	 console.log(data);
 	var len = data.length;
 
-	var y = d3.scale.linear()
+	var y = d3.scaleLinear()
         	.domain([0, d3.max(data, function(element) { return parseInt(element["AverageHighwayMPG"]); })])
           	.range([0, h]);
 
@@ -434,8 +434,8 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	 console.log(data);
 	var len = data.length;
 
-	xs = d3.scale.log().domain([10,150]).range([0,w - 80])
-   	ys = d3.scale.log().domain([10,150]).range([h - 50,0])
+	xs = d3.scaleLog().domain([10,150]).range([0,w - 80])
+   	ys = d3.scaleLog().domain([10,150]).range([h - 50,0])
 
 	//
 	// Create SVG canvas
