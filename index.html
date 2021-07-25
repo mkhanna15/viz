@@ -136,6 +136,19 @@ var svg1 = d3.select("#barChart1")
 		.append("svg")
 		.attr("width", w + 100)
 		.attr("height", h);
+svg1
+    .append('defs')
+    .append('marker')
+    .attr('id', 'arrow')
+    .attr('viewBox', [0, 0, 12, 12])
+    .attr('refX', 6)
+    .attr('refY', 6)
+    .attr('markerWidth', 12)
+    .attr('markerHeight', 12)
+    .attr('orient', 'auto')
+    .append('path')
+    .attr('d', "M2,2 L10,6 L2,10 L6,6 L2,2")
+    .attr('stroke', 'black');
 </script>
 <script type="execute">
 
@@ -225,6 +238,19 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
   	  .attr("font-weight", "bold")
   	  .attr("fill", "black");
 
+
+	var arrowline = svg1.append("line")
+             .attr("x1",300)  
+             .attr("y1",40)  
+             .attr("x2",340)  
+             .attr("y2",80)  
+             .attr("stroke","black")  
+             .attr("stroke-width",2)  
+             .attr("marker-end","url(#arrow)");
+    	
+	var arrowlinetext = svg1.append("text").attr("x", 240).attr("y", 30)
+		.text("Highest MPG").attr("font-family", "sans-serif")
+  	  	.attr("font-size", "15px").attr("font-weight", "bold");
 
 	//
 	// Annotations
@@ -319,6 +345,19 @@ var svg2 = d3.select("#barChart2")
 	.append("svg")
 	.attr("width", w + 100)
 	.attr("height", h);
+svg2
+    .append('defs')
+    .append('marker')
+    .attr('id', 'arrow')
+    .attr('viewBox', [0, 0, 12, 12])
+    .attr('refX', 6)
+    .attr('refY', 6)
+    .attr('markerWidth', 12)
+    .attr('markerHeight', 12)
+    .attr('orient', 'auto')
+    .append('path')
+    .attr('d', "M2,2 L10,6 L2,10 L6,6 L2,2")
+    .attr('stroke', 'black');
 </script>
 <script type="execute">
 
@@ -405,6 +444,20 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	//
 	// Annotations
 	//
+
+	var arrowline = svg2.append("line")
+             .attr("x1",300)  
+             .attr("y1",40)  
+             .attr("x2",300)  
+             .attr("y2",140)  
+             .attr("stroke","black")  
+             .attr("stroke-width",2)  
+             .attr("marker-end","url(#arrow)");
+    	
+	var arrowlinetext = svg2.append("text").attr("x", 240).attr("y", 20)
+		.text("Lowest MPG").attr("font-family", "sans-serif")
+  	  	.attr("font-size", "15px").attr("font-weight", "bold");
+
 	var line20 = svg2.append("line").attr("x1", 0).attr("y1", h - 20*14).attr("x2", 515).attr("y2", h - 20*14)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0.5; stroke-width:1; stroke: black;");
 
@@ -624,6 +677,13 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 		.attr("font-family", "sans-serif")
   	  	.attr("font-size", "20px")
   	  	.attr("font-weight", "bold");
+	svg.append("text")
+		.attr("x", 360)
+		.attr("y", 120)
+		.text("(High MPG)")
+		.attr("font-family", "sans-serif")
+  	  	.attr("font-size", "15px")
+  	  	.attr("font-weight", "bold");
 
 	svg.append("text")
 		.attr("x", 150)
@@ -631,6 +691,13 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 		.text("Gasoline Cars")
 		.attr("font-family", "sans-serif")
   	  	.attr("font-size", "20px")
+  	  	.attr("font-weight", "bold");
+	svg.append("text")
+		.attr("x", 160)
+		.attr("y", 270)
+		.text("(Low MPG)")
+		.attr("font-family", "sans-serif")
+  	  	.attr("font-size", "15px")
   	  	.attr("font-weight", "bold");
 });
 
