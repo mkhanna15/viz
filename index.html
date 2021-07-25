@@ -24,6 +24,8 @@ body {
         text-align: center;
     }
 
+    
+
      .button {
           font-weight: lighter;
           cursor: pointer;
@@ -55,46 +57,16 @@ body {
 
 </style>
 <p style="font-size:250%;"><strong>Cars Fuel Efficiency</strong></p>
+<div class="button-container">
+  <button id = "Prev" class = "button">Previous</button>
+  <button id = "Next" class = "button">Next</button>
+  </div>
 </head>
 <body>
      <!--  -->
 <script src='https://d3js.org/d3.v5.min.js'></script>
-<p style="font-size:160%;">
-Buying a car is not easy. There are so many cars in the market and it becomes very difficult to decide which car to buy.
-One of the criteria that can help make the decision is car fuel efficiency. This is an important criteria for most of 
-the people as it directly constributes towards recurring cost of owning the car. Here we analyze 
-car fuel efficiency of some of the leading car brands to get an idea of the range of fuel efficency and also get
-know which car brands give highest fuel efficency and which car brands give lowest fuel efficiency.
-We have picked following car brands for our analysis: <strong>
-Acura, Audi, BMW, Chevrolet, Dodge, Fiat, Ford, Honda, Lexus, and Toyota</strong>. We are going to look at the
- <strong>City</strong> mileage and <strong>Highway</strong> mileage of these cars.
- We will also look at these mileages on with <strong>4-cylinder</strong> engine and <strong>6-cylinder</strong> engine.
- For our analysis,
-we have collected data from the source <a href="https://flunky.github.io/cars2017.csv">Cars 2017</a>.
-</p>
-<p>
-<br>
-</p>
-<h2>4-Cylinder Cars Mileage Comparison</h2>
-<p style="font-size:160%;">
- 4-cylinder cars are smaller, give reasonable performance and provide good fuel efficiency. These cars are very common 
-as they are low cost and it is important to look at fuel efficiency of these cars.
-Below we look at City and Highway mileage of 4-cylinder cars for the leading car brands.
- The below chart compares the City Mileage of different car brands. 
- We can look at the Highway Mileage by clicking the <strong>Highway MPG</strong> button to see how that compares
-for these car brands. 
-We see that the mileage of car for all the brands improves on Highway in comparison to City.
-Moreover, we also notice that that <strong>Honda</strong> gives the best mileage in City as well as on Highway.
-Also, we notice that <strong>Audi</strong> and <strong>BMW</strong> give same mileage in City but <strong>BMW</strong>
-gives more mileage on Highway. Similarly <strong>Lexus</strong> gives better City mileage than <strong>Toyota</strong>,
-but both give same mileage on Highway.
-</p>
-<div>
-<button id = "button1" class = "button">City MPG</button>
-<button id = "button2" class = "button">Highway MPG</button>
-</div>
-<div id='barChart1'>
-</div>
+<div id="test">
+
 <script>
 // Set width
 var w = 500;
@@ -118,6 +90,57 @@ var leadingBrands =
 // Tooltip
 var div = d3.select("body").append("div").attr("class", "toolTip");
 
+
+</script>
+<div id="test1">
+<p style="font-size:160%;">
+Buying a car is not easy. There are so many cars in the market and it becomes very difficult to decide which car to buy.
+One of the criteria that can help make the decision is car fuel efficiency. This is an important criteria for most of 
+the people as it directly constributes towards recurring cost of owning the car. Here we analyze 
+car fuel efficiency of some of the leading car brands to get an idea of the range of fuel efficency and also get
+know which car brands give highest fuel efficency and which car brands give lowest fuel efficiency.
+We have picked following car brands for our analysis: <strong>
+Acura, Audi, BMW, Chevrolet, Dodge, Fiat, Ford, Honda, Lexus, and Toyota</strong>. We are going to look at the
+ <strong>City</strong> mileage and <strong>Highway</strong> mileage of these cars.
+ We will also look at these mileages on with <strong>4-cylinder</strong> engine and <strong>6-cylinder</strong> engine.
+ For our analysis,
+we have collected data from the source <a href="https://flunky.github.io/cars2017.csv">Cars 2017</a>.
+</p>
+</div>
+<p>
+<br>
+</p>
+<div id="test2">
+<h2>4-Cylinder Cars Mileage Comparison</h2>
+<p style="font-size:160%;">
+ 4-cylinder cars are smaller, give reasonable performance and provide good fuel efficiency. These cars are very common 
+as they are low cost and it is important to look at fuel efficiency of these cars.
+Below we look at City and Highway mileage of 4-cylinder cars for the leading car brands.
+ The below chart compares the City Mileage of different car brands. 
+ We can look at the Highway Mileage by clicking the <strong>Highway MPG</strong> button to see how that compares
+for these car brands. 
+We see that the mileage of car for all the brands improves on Highway in comparison to City.
+Moreover, we also notice that that <strong>Honda</strong> gives the best mileage in City as well as on Highway.
+Also, we notice that <strong>Audi</strong> and <strong>BMW</strong> give same mileage in City but <strong>BMW</strong>
+gives more mileage on Highway. Similarly <strong>Lexus</strong> gives better City mileage than <strong>Toyota</strong>,
+but both give same mileage on Highway.
+</p>
+<div>
+<button id = "button1" class = "button">City MPG</button>
+<button id = "button2" class = "button">Highway MPG</button>
+</div>
+<div id='barChart1'>
+</div>
+<script>
+var svg1 = d3.select("#barChart1")
+		.append("svg")
+		.attr("width", w + 100)
+		.attr("height", h);
+</script>
+<script type="execute">
+
+svg1 = d3.select("#barChart1").select("svg")
+
 // Read data from CSV
 d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 
@@ -134,20 +157,16 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
         	.domain([0, d3.max(data, function(element) { return parseInt(element["AverageHighwayMPG"]); })])
           	.range([0, h]);
 
-	//
-	// Create SVG canvas
-	//
-	var svg = d3.select("#barChart1")
-		.append("svg")
-		.attr("width", w + 100)
-		.attr("height", h);
-
 	
+
+	//svg.attr("opacity", 0);
+	//d3.select("#button1").attr("style", "display: none;");
+	//d3.select("#button2").attr("style", "display: none;");
 
 	//
 	// Add bars
 	//
-	var bars = svg.selectAll("rect")
+	var bars = svg1.selectAll("rect")
 		.data(data)
 		.enter()
 		.append("rect")
@@ -187,7 +206,7 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	//
 	// Add Label to the bars
 	//
-	svg.selectAll("text")
+	svg1.selectAll("text")
   		.data(data)
 	  .enter()
 	  .append("text")
@@ -210,22 +229,22 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	//
 	// Annotations
 	//
-	var line20 = svg.append("line").attr("x1", 0).attr("y1", 200).attr("x2", 515).attr("y2", 200)
+	var line20 = svg1.append("line").attr("x1", 0).attr("y1", 200).attr("x2", 515).attr("y2", 200)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0.5; stroke-width:1; stroke: black;");
 
-	var line20text = svg.append("text").attr("x", 520).attr("y", 204).text("20 MPG").attr("font-family", "sans-serif")
+	var line20text = svg1.append("text").attr("x", 520).attr("y", 204).text("20 MPG").attr("font-family", "sans-serif")
   	  	.attr("font-size", "15px").attr("font-weight", "bold");
 
-	var line30 = svg.append("line").attr("x1", 0).attr("y1", 100).attr("x2", 515).attr("y2", 100)
+	var line30 = svg1.append("line").attr("x1", 0).attr("y1", 100).attr("x2", 515).attr("y2", 100)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0.5; stroke-width:1; stroke: black;");
 
-	var line30text = svg.append("text").attr("x", 520).attr("y", 104).text("30 MPG").attr("font-family", "sans-serif")
+	var line30text = svg1.append("text").attr("x", 520).attr("y", 104).text("30 MPG").attr("font-family", "sans-serif")
   	  	.attr("font-size", "15px").attr("font-weight", "bold");
 
-	var line35 = svg.append("line").attr("x1", 0).attr("y1", 50).attr("x2", 515).attr("y2", 50)
+	var line35 = svg1.append("line").attr("x1", 0).attr("y1", 50).attr("x2", 515).attr("y2", 50)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0; stroke-width:1; stroke: black;");
 
-	var line35text = svg.append("text").attr("x", 520).attr("y", 54).text("35 MPG").attr("font-family", "sans-serif")
+	var line35text = svg1.append("text").attr("x", 520).attr("y", 54).text("35 MPG").attr("font-family", "sans-serif")
   	  	.attr("font-size", "15px").attr("font-weight", "bold").attr("opacity", 0);
 
 	var cityButton = d3.select("#button1");
@@ -268,13 +287,10 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
   		    });
 	}
 
-	
-
   });
 </script>
-<p>
-<br><br>
-</p>
+</div>
+<div id="test3">
 <h2>6-Cylinder Cars Mileage Comparison</h2>
 <p style="font-size:160%;" padding: 0 7em 2em 0>
  6-cylinder engines are high performing engines found in automobiles that need to perform with high power.
@@ -295,6 +311,18 @@ We also notice that <strong>Ford</strong> gives poor fuel efficiency both in Cit
 <div id='barChart2'>
 </div>
 <script>
+//
+// Create SVG canvas
+//
+var svg2 = d3.select("#barChart2")
+	.append("svg")
+	.attr("width", w + 100)
+	.attr("height", h);
+</script>
+<script type="execute">
+
+var svg2 = d3.select("#barChart2").select("svg");
+
 d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 
 	var data = origdata.filter(function(element) {
@@ -303,25 +331,19 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
                        leadingBrands.indexOf(element.Make) != -1;
     	});
 
-	 console.log(data);
+	// console.log(data);
 	var len = data.length;
 
 	var y = d3.scaleLinear()
         	.domain([0, d3.max(data, function(element) { return parseInt(element["AverageHighwayMPG"]); })])
           	.range([0, h]);
 
-	//
-	// Create SVG canvas
-	//
-	var svg = d3.select("#barChart2")
-		.append("svg")
-		.attr("width", w + 100)
-		.attr("height", h);
+	
 
 	//
 	// Add bars
 	//
-	var bars = svg.selectAll("rect")
+	var bars = svg2.selectAll("rect")
 		.data(data)
 		.enter()
 		.append("rect")
@@ -338,7 +360,7 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 		.attr("fill", function(d, i) {
 		    return colormap[leadingBrands.indexOf(d.Make)];
   		});
-
+	
 
        //
        // Add tooltip on mouse hover
@@ -360,7 +382,7 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	//
 	// Add Label to the bars
 	//
-	svg.selectAll("text")
+	svg2.selectAll("text")
   		.data(data)
 	  .enter()
 	  .append("text")
@@ -382,22 +404,22 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	//
 	// Annotations
 	//
-	var line20 = svg.append("line").attr("x1", 0).attr("y1", h - 20*14).attr("x2", 515).attr("y2", h - 20*14)
+	var line20 = svg2.append("line").attr("x1", 0).attr("y1", h - 20*14).attr("x2", 515).attr("y2", h - 20*14)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0.5; stroke-width:1; stroke: black;");
 
-	var line20text = svg.append("text").attr("x", 520).attr("y", h - 20*14 + 4).text("20 MPG").attr("font-family", "sans-serif")
+	var line20text = svg2.append("text").attr("x", 520).attr("y", h - 20*14 + 4).text("20 MPG").attr("font-family", "sans-serif")
   	  	.attr("font-size", "15px").attr("font-weight", "bold");
 
-	var line15 = svg.append("line").attr("x1", 0).attr("y1", h - 15*14).attr("x2", 515).attr("y2", h - 15*14)
+	var line15 = svg2.append("line").attr("x1", 0).attr("y1", h - 15*14).attr("x2", 515).attr("y2", h - 15*14)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0.5; stroke-width:1; stroke: black;");
 
-	var line15text = svg.append("text").attr("x", 520).attr("y", h - 15*14 + 4).text("15 MPG").attr("font-family", "sans-serif")
+	var line15text = svg2.append("text").attr("x", 520).attr("y", h - 15*14 + 4).text("15 MPG").attr("font-family", "sans-serif")
   	  	.attr("font-size", "15px").attr("font-weight", "bold");
 
-	var line25 = svg.append("line").attr("x1", 0).attr("y1", h - 25*14).attr("x2", 515).attr("y2", h - 25*14)
+	var line25 = svg2.append("line").attr("x1", 0).attr("y1", h - 25*14).attr("x2", 515).attr("y2", h - 25*14)
 		.attr("style","stroke-dasharray: 9, 5; stroke-opacity:0; stroke-width:1; stroke: black;");
 
-	var line25text = svg.append("text").attr("x", 520).attr("y", h - 25*14 + 4).text("25 MPG").attr("font-family", "sans-serif")
+	var line25text = svg2.append("text").attr("x", 520).attr("y", h - 25*14 + 4).text("25 MPG").attr("font-family", "sans-serif")
   	  	.attr("font-size", "15px").attr("font-weight", "bold").attr("opacity", 0);
 
 
@@ -443,9 +465,8 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
   });
 
 </script>
-<p>
-<br><br>
-</p>
+</div>
+<div id="unsued">
 <h2>4-Cylinder Cars vs 6-Cylinder Cars</h2>
 <p style="font-size:160%;">
  From the Car mileage data we can confirm that 4-cylinder cars are more fuel efficient than 6-cylinder cars.
@@ -471,6 +492,8 @@ The benefits of 6-cylinder engine include:
 </ul>
 <br><br>
 </p>
+</div>
+<div id ="test4">
 <h2>Electric Cars vs Gasoline Cars</h2>
 <p style="font-size:160%;">
  Around the world, countries are increasingly moving towards car production and ownership that is entirely electric.
@@ -482,9 +505,7 @@ Highway mileage. We see that all the electric cars for brands
 <strong>Ford</strong>, <strong>Chevrolet</strong> and <strong>BMW</strong>
 shown as <span class="dot"></span> give much better mileage than Gasoline cars.
 The mileage of Electric cars is around <strong>100 MPG</strong>, while Gasoline cars is below <strong>40 MPG</strong>.
-
 </p>
-</div>
 <div id='Chart3'>
 </div>
 <script>
@@ -493,6 +514,15 @@ var gasolineBrands =
 
 var electricBrands =
    ["BMW", "Chevrolet", "Ford"]
+
+var svg = d3.select("#Chart3")
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+</script>
+<script type="execute">
+
+var svg = d3.select("#Chart3").select("svg");
 
 d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 
@@ -508,7 +538,7 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
     	});
 	
 	data = data1.concat(data2);
-	 console.log(data);
+	 
 	var len = data.length;
 
 	xs = d3.scaleLog().domain([10,150]).range([0,w - 80])
@@ -517,13 +547,9 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	//
 	// Create SVG canvas
 	//
-	var svg = d3.select("#Chart3")
-		.append("svg")
-		.attr("width", w)
-		.attr("height", h);
+	
 
-	var circles = svg.append("g")
-	      .attr("transform", "translate(0,0)")
+	var circles = svg.append("g").attr("transform", "translate(0,0)")
 	    .selectAll().data(data).enter().append("circle")
 	    .attr('cx', function(d,i) {return xs(d["AverageCityMPG"] );})
 	    .attr('cy', function(d,i) {return ys(d["AverageHighwayMPG"]);})
@@ -605,17 +631,110 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
   	  	.attr("font-size", "20px")
   	  	.attr("font-weight", "bold");
 });
+
 </script>
-<p>
-<br><br>
-</p>
-<h2>Conclusion</h2>
-<p style="font-size:160%;">
-Above, we looked at fuel efficiency of different car brands. We looked at fuel efficiency for cars with 4-cylinder engine. 
-We also looked at fuel efficiency for cars with 6-cylinder engine. We noticed that 4-cylinder engine give better fuel 
-efficiency than 6-cylinder engine. We then compared fuel efficiency of Electric cars with Gasoline cars and see that electric
+  </div>
+  
+  <div id="test5">
+    <h2>Conclusion</h2>
+    <p style="font-size:160%;">
+Here, we looked at fuel efficiency of different car brands. We looked at fuel efficiency for cars with <strong>4-cylinder</strong> engine. 
+We also looked at fuel efficiency for cars with <strong>6-cylinder</strong> engine. We noticed that <strong>4-cylinder</strong> engine give better fuel 
+efficiency than <strong>6-cylinder</strong> engine. We then compared fuel efficiency of <strong>Electric</strong> cars with <strong>Gasoline</strong> cars and see that electric
 cars provide much better fuel efficiency. Electric cars tend to be more expensive upfront, but as this type of vehicle is becoming more common and there are more model options to choose from,
  the upfront cost difference is declining.
-</p>
-</body>
+    </p>
+   </div>
+  </div>
+  <p>
+   <br>
+  </p>
+  
+
+  <script>
+    var prev = d3.select("#Prev").attr("style", "margin:10px;font-size:25px;padding: 12px 25px;").attr("disabled", 1);
+    var next = d3.select("#Next").attr("style", "float: right;margin:10px;font-size:25px;padding: 12px 25px;");
+    var page = document.getElementById('test');
+    var page1 = document.getElementById('test1');
+    var page2 = document.getElementById('test2');
+    var page3 = document.getElementById('test3');
+    var page4 = document.getElementById('test4');
+    var page5 = document.getElementById('test5');
+
+    document.getElementById('test').innerHTML = page1.innerHTML;
+
+   d3.select("#Next").on("click", function() {
+	
+	//console.log(page.innerHTML[5]);
+	var c = page.innerHTML[5]
+
+        if ( c == "t" ) {
+	   	page.innerHTML = page2.innerHTML;
+                document.getElementById("Prev").disabled = false;
+	}
+	else if ( c == "4" ) {
+		page.innerHTML = page3.innerHTML;
+	}
+        else if ( c == "6" ) {
+		page.innerHTML = page4.innerHTML;
+	}
+	else if ( c == "E" ) {
+		page.innerHTML = page5.innerHTML;
+		document.getElementById("Next").disabled = true;
+	}
+
+	var scripts = Array.prototype.slice.call(page.getElementsByTagName("script"));
+	for (var i = 0; i < scripts.length; i++) {
+		if (scripts[i].src != "") {
+            		//var tag = document.createElement("script");
+            		//tag.src = scripts[i].src;
+            		//document.getElementsByTagName("head")[0].appendChild(tag);
+        	}	
+        	else {
+            		//console.log(scripts[i].type);
+            		//if (scripts[i].type == "execute") {
+            			eval(scripts[i].innerHTML);
+				//eval(scripts[i].innerHTML);
+	    		//}
+        	}
+	}
+    });
+   d3.select("#Prev").on("click", function() {
+	//console.log(page.innerHTML[5]);
+	var c = page.innerHTML[5]
+
+        if ( c == "<" ) {
+	   	page.innerHTML = page4.innerHTML;
+		document.getElementById("Next").disabled = false;
+	}
+	else if ( c == "E" ) {
+		page.innerHTML = page3.innerHTML;
+	}
+        else if ( c == "6" ) {
+		page.innerHTML = page2.innerHTML;
+	}
+	else if ( c == "4" ) {
+		page.innerHTML = page1.innerHTML;
+		document.getElementById("Prev").disabled = true;
+	}
+
+	var scripts = Array.prototype.slice.call(page.getElementsByTagName("script"));
+	for (var i = 0; i < scripts.length; i++) {
+		if (scripts[i].src != "") {
+            		//var tag = document.createElement("script");
+            		//tag.src = scripts[i].src;
+            		//document.getElementsByTagName("head")[0].appendChild(tag);
+        	}	
+        	else {
+            		//console.log(scripts[i].type);
+            		//if (scripts[i].type == "execute") {
+            			eval(scripts[i].innerHTML);
+				//eval(scripts[i].innerHTML);
+	    		//}
+        	}
+	}
+    });
+    
+  </script>
+ </body>
 </html>
