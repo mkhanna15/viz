@@ -250,10 +250,11 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	var cityButton = d3.select("#button1");
 	var highwayButton = d3.select("#button2");
 
-	cityButton.attr("style", "font-weight:bold;")
+	cityButton.attr("style", "font-weight:bold; padding: 6px 10px;")
+	highwayButton.attr("style", "padding: 6px 10px;")
 	cityButton.on("click", function() {
-		cityButton.attr("style", "font-weight:bold;")
-		highwayButton.attr("style", "font-weight:lighter;")
+		cityButton.attr("style", "font-weight:bold; padding: 6px 10px;")
+		highwayButton.attr("style", "font-weight:lighter; padding: 6px 10px;")
 		updateToCityMPG()
 	});
 	function updateToCityMPG() {
@@ -270,8 +271,8 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	}	
 
 	highwayButton.on("click", function() {
-		cityButton.attr("style", "font-weight:lighter;")
-		highwayButton.attr("style", "font-weight:bold;")
+		cityButton.attr("style", "font-weight:lighter; padding: 6px 10px;")
+		highwayButton.attr("style", "font-weight:bold; padding: 6px 10px;")
 		updateToHighwayMPG();
 	});
 	function updateToHighwayMPG() {
@@ -426,10 +427,11 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	var cityButton = d3.select("#button3");
 	var highwayButton = d3.select("#button4");
 
-	cityButton.attr("style", "font-weight:bold;")
+	cityButton.attr("style", "font-weight:bold; padding: 6px 10px;")
+	highwayButton.attr("style", "padding: 6px 10px;")
 	cityButton.on("click", function() {
-		cityButton.attr("style", "font-weight:bold;")
-		highwayButton.attr("style", "font-weight:lighter;")
+		cityButton.attr("style", "font-weight:bold; padding: 6px 10px;")
+		highwayButton.attr("style", "font-weight:lighter; padding: 6px 10px;")
 		updateToCityMPG()
 	});
 	function updateToCityMPG() {
@@ -446,8 +448,8 @@ d3.csv('https://mkhanna15.github.io/viz/cars.csv').then(function(origdata) {
 	}	
 
 	highwayButton.on("click", function() {
-		cityButton.attr("style", "font-weight:lighter;")
-		highwayButton.attr("style", "font-weight:bold;")
+		cityButton.attr("style", "font-weight:lighter; padding: 6px 10px;")
+		highwayButton.attr("style", "font-weight:bold; padding: 6px 10px;")
 		updateToHighwayMPG();
 	});
 	function updateToHighwayMPG() {
@@ -652,8 +654,8 @@ cars provide much better fuel efficiency. Electric cars tend to be more expensiv
   
 
   <script>
-    var prev = d3.select("#Prev").attr("style", "margin:10px;font-size:25px;padding: 12px 25px;").attr("disabled", 1);
-    var next = d3.select("#Next").attr("style", "float: right;margin:10px;font-size:25px;padding: 12px 25px;");
+    var prev = d3.select("#Prev").attr("style", "font-weight: bold; margin:10px;font-size:25px;padding: 12px 25px;").attr("disabled", 1);
+    var next = d3.select("#Next").attr("style", "font-weight: bold;float: right;margin:10px;font-size:25px;padding: 12px 25px;");
     var page = document.getElementById('test');
     var page1 = document.getElementById('test1');
     var page2 = document.getElementById('test2');
